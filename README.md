@@ -5,7 +5,7 @@
 - **Ruby**
 - **C#**
 - **PHP**
-- **Javaa**
+- **Java**
 - **CSS**
 - **Matlab**
 - **C and C++**
