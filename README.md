@@ -1,8 +1,4 @@
 # 18 Programming Languages
-<<<<<<< HEAD
-=======
-
->>>>>>> 322faa93a898708d499ad508639652ce2f4acf41
 - **Python**
 - **SQL**
 - **HTML**
