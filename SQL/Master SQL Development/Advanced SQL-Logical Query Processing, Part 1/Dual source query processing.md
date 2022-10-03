@@ -276,6 +276,7 @@ SELECT AD.*, A.implant_chip_id,A.breed  FROM animals AS A INNER JOIN adoptions A
 | Peanut     | Rabbit  | richard.castillo@icloud.com      | 2019-03-21    | 83           | 99a021d1-5e5a-4499-8759-02b3d89ce9af | NULL           |
 
 <br>
+
 ```sql
 SELECT AD.*, A.implant_chip_id,A.breed  FROM animals AS A LEFT OUTER JOIN adoptions AS AD ON AD.NAME = A.NAME AND AD.Species = A.Species;
 ```
