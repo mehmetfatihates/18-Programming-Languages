@@ -1,3 +1,5 @@
+### Outputs are just first 25 rows
+
 ```sql
 SELECT  * FROM
     animals AS A
