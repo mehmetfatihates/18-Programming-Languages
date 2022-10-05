@@ -35,7 +35,8 @@ FROM adoptions;
 <br>
 
 ```SQL
-
+SELECT *, (SELECT MAX(adoption_fee) FROM adoptions)
+FROM adoptions;
 ```
 
 | name   | species | adopter_email                    | adoption_date | adoption_fee | max |
@@ -170,7 +171,7 @@ FROM persons AS P
 
 <BR>
 
-### ! This query wrong because of second email. There is no email column on adoptions table
+### ! This query wrong because of second "email". There is no email column on adoptions table
 
 ```SQL
 SELECT *
