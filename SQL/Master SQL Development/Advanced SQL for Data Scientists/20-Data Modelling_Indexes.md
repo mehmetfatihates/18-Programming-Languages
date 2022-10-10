@@ -155,6 +155,6 @@
 - UUID_mixmax_ops
 - Many more
 
-# Choosing an Optimal Indexing Strategy
+# Challange: Choosing an Optimal Indexing Strategy
 
 - Use a Hash Index
