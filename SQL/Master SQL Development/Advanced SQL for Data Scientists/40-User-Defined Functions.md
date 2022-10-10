@@ -235,3 +235,18 @@ AS $$
 - Arguments are treated as global variables(Best to treat read only)
 
 # Challange: Write a user-defined function
+
+- Returns true if an input string is a palindrome (ex:'abccba')
+
+```sql
+CREATE FUNCTION is_polindrome(x text) RETURNS boolean
+AS $$
+        SELECT reverse(x)=x
+    $$ LANGUAGE SQL IMMUTABLE;
+
+SELECT is_polindrome('abccba'), is_polindrome('asdasdaaaaaqqqqqq')
+```
+
+| is_polindrome | is_polindrome |
+| :------------ | :------------ |
+| true          | false         |
