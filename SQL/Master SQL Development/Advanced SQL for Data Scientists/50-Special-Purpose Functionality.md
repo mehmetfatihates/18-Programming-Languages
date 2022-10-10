@@ -104,3 +104,113 @@ CREATE TABLE my_kv_table (id serial,primary key kv_set hstore)
   - key1 => value1, key2 =>value2
 
 # JSON for Semi-Structured Data
+
+- https://www.postgresql.org/docs/9.5/functions-json.html-
+
+# Hierarchical data and ltrees
+
+```sql
+CREATE EXTENSION ltree;
+CREATE TABLE paths_to_nodes(
+    id serial primary key,
+    node text,
+    path ltree);
+```
+
+```sql
+CREATE INDEX idx_paths_to_nodes ON paths_to_nodes USING gist(path)
+```
+
+```SQL
+INSERT INTO paths_to_nodes (node,path) values('A','A');
+INSERT INTO paths_to_nodes (node,path) values('B','A.B');
+INSERT INTO paths_to_nodes (node,path) values('C','A.C');
+INSERT INTO paths_to_nodes (node,path) values('D','A.B.D');
+INSERT INTO paths_to_nodes (node,path) values('E','A.B.E');
+INSERT INTO paths_to_nodes (node,path) values('F','A.C.F');
+INSERT INTO paths_to_nodes (node,path) values('G','A.C.G');
+INSERT INTO paths_to_nodes (node,path) values('H','A.B.D.H');
+INSERT INTO paths_to_nodes (node,path) values('I','A.B.D.I');
+INSERT INTO paths_to_nodes (node,path) values('J','A.B.D.J');
+INSERT INTO paths_to_nodes (node,path) values('K','A.C.F.K');
+```
+
+```SQL
+SELECT * FROM paths_to_nodes;
+```
+
+| id  | node | path    |
+| :-- | :--- | :------ |
+| 1   | A    | A       |
+| 3   | B    | A.B     |
+| 4   | C    | A.C     |
+| 5   | D    | A.B.D   |
+| 6   | E    | A.B.E   |
+| 7   | F    | A.C.F   |
+| 8   | G    | A.C.G   |
+| 9   | H    | A.B.D.H |
+| 10  | I    | A.B.D.I |
+| 11  | J    | A.B.D.J |
+| 12  | K    | A.C.F.K |
+
+```sql
+SELECT * FROM paths_to_nodes
+WHERE 'A.B.D' @> path
+```
+
+| id  | node | path    |
+| :-- | :--- | :------ |
+| 5   | D    | A.B.D   |
+| 9   | H    | A.B.D.H |
+| 10  | I    | A.B.D.I |
+| 11  | J    | A.B.D.J |
+
+```sql
+SELECT * FROM paths_to_nodes
+WHERE '*.B.*' ~ path
+```
+
+| id  | node | path    |
+| :-- | :--- | :------ |
+| 3   | B    | A.B     |
+| 5   | D    | A.B.D   |
+| 6   | E    | A.B.E   |
+| 9   | H    | A.B.D.H |
+| 10  | I    | A.B.D.I |
+| 11  | J    | A.B.D.J |
+
+```SQL
+SELECT * FROM paths_to_nodes
+WHERE '*.B.*{1}' ~ path
+```
+
+| id  | node | path  |
+| :-- | :--- | :---- |
+| 5   | D    | A.B.D |
+| 6   | E    | A.B.E |
+
+```SQL
+SELECT * FROM paths_to_nodes
+WHERE '*.B.*{0,2}' ~ path
+```
+
+| id  | node | path    |
+| :-- | :--- | :------ |
+| 3   | B    | A.B     |
+| 5   | D    | A.B.D   |
+| 6   | E    | A.B.E   |
+| 9   | H    | A.B.D.H |
+| 10  | I    | A.B.D.I |
+| 11  | J    | A.B.D.J |
+
+```SQL
+SELECT * FROM paths_to_nodes
+WHERE '*.B.*{1}' ~ path
+```
+
+# Challange: Design a table to support unstructured data
+
+- Semi-structured
+- Need indexes to support query performance
+- Could use columns for eaxh attribute but not practical to maintain
+- A jsonb column provides document structure and indexing
