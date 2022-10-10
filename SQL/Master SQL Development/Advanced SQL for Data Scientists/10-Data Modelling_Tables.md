@@ -110,3 +110,89 @@ CREATE TABLE io_sensor_msmt_y2021m02 PARTITION OF iot.sensor_msmt
 ```
 
 # Materialized views
+
+- Persisted results of a query
+- Excute a query once
+- A form of caching
+- Trading space for time
+
+##### When to Use Materialized Views
+
+- Long-running queries
+- Complex queries, especially joins
+- Compute aggregates or other derived data
+- Seperate read and write operations
+
+##### When to Not Use Materialized Views
+
+- Eventual consistency
+- Cost of update process
+- Concurrent reads during update ?
+- Size of materialized view data
+- Refresh frequency
+
+```sql
+SELECT
+    l.hotel_id, l.state_province, l.country,
+    e.year, e.annual_payroll, e.health_insurance, e.supplies
+FROM
+    landon.locations l
+LEFT JOIN
+    landon.expenses e
+ON (l.hotel_id = e.hotel_id)
+```
+
+<br>
+
+```sql
+CREATE MATERIALIZED VIEW landon.mv_locations_expenses AS
+(
+SELECT
+    l.hotel_id, l.state_province, l.country,
+    e.year, e.annual_payroll, e.health_insurance, e.supplies
+FROM
+    landon.locations l
+LEFT JOIN
+    landon.expenses e
+ON (l.hotel_id = e.hotel_id)
+)
+```
+
+<br>
+
+```SQL
+SELECT * FROM landon.mv_locations_expenses;
+```
+
+<br>
+
+```sql
+REFRESH MATERIALIZED VIEW landon.mv_locations_expenses;
+```
+
+# Read Replicas
+
+- Primary can focus on writes
+- Multiple replicas can scale to meet read load
+- Especially useful when more read than write workload
+- Need consider eventual consistency
+
+# Design a Model to Support the Requirements
+
+- High-level model
+- What kind of structures
+  <br>
+
+- Low latency
+- Access to data older than one hour
+
+##### Solution
+
+Write Sensor Data to a Table
+Use Materialized Views
+
+- Materialized views should be used to generate views of aggregated data by hour and by day.
+
+Use Read Replica If Necessary
+
+- If data scientists need access to low-level detail and aggregates
