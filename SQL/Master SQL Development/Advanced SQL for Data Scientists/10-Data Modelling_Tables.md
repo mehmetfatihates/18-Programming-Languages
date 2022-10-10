@@ -3,7 +3,7 @@
 - **Partitioning data**
 - **Materialized views**
 - **Read replicas**
-- **Solution: Design a data model for analytics**
+- **Design a data model for analytics**
 
 # Rules of normalization
 
