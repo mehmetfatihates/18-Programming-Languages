@@ -59,7 +59,7 @@
 
 - Statistics on subset of attributes; after factor analysis
 
-* Partition by range
+# Partition by range
 
 - Type of horizontal partitioning
 - Partition on non-overlapping keys
@@ -98,7 +98,7 @@ PARTITION BY RANGE (measure_date);
 - Report within range, for example numeric identifier range
 - Drop data after a period of time
 
-* Partition by range example
+# Partition by range example
 
 ```sql
 CREATE TABLE iot_measurement
@@ -122,11 +122,11 @@ CREATE TABLE iot_measurement_wk3_2019 PARTITION OF iot_measurement
 FOR VALUES FROM ('2019-01-15') TO ('2019-01-22')
 ```
 
-- Partition by list
+# Partition by list
 
-* Type of horizontal partitioning
-* Partition on non-overlapping keys
-* Partition on value or list of values
+- Type of horizontal partitioning
+- Partition on non-overlapping keys
+- Partition on value or list of values
 
 1. Partition key
 
@@ -158,7 +158,7 @@ PARTITION BY LIST (prod_category);
 - Often query within subgroups
 - Data not time oriented enough to warrant range partition by time
 
-* Partition by list example
+# Partition by list example
 
 ```sql
 CREATE TABLE products
@@ -183,10 +183,10 @@ CREATE TABLE product_kitchen PARTITION OF products
 FOR VALUES IN ('food_processor','cultery','blenders');
 ```
 
-- Partition by hash
+# Partition by hash
 
-* Type of horizontal partitioning
-* Partition on modulus of hash of partition key
+- Type of horizontal partitioning
+- Partition on modulus of hash of partition key
 
 1. Partition Key
 
@@ -206,7 +206,7 @@ FOR VALUES IN ('food_processor','cultery','blenders');
 - Want even distribution of data across partitions
 - No need for subgroup-specific operations for example drop a partiton
 
-* Partition by hash example
+# Partition by hash example
 
 ```sql
 CREATE TABLE customer_interactions
