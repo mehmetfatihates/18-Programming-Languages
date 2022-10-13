@@ -1,0 +1,6 @@
+- Database errors
+- Error trapping
+- Database not responding, timeouts and exponential backoff
+- Connection pooling and bulk heads
+- Monitoring and logging best practices
+- Challange: When your Python application fails
