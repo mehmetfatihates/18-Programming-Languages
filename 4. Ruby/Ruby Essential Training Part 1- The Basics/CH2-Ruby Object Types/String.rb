@@ -24,3 +24,14 @@ puts greeting
 "1"*3
 #111
 
+1.to_s * "3".to_i
+# "111" 
+
+greeting.capitalize
+greeting.reverse
+greeting.upcase
+greeting.reverse.capitalize
+greeting.downcase
+greeting.length
+
+
